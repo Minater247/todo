@@ -290,11 +290,73 @@ local function rmtag(itemNum, tag)
     file.close()
 end
 
+local function verify(tt)
+    if tt then
+        for i=1, #tt do
+            if type(tt[i].text) ~= "string" or type(tt[i].tags) ~= "table" or type(tt[i].priority) ~= "number" or type(tt[i].done) ~= "boolean" then
+                return false, i
+            end
+        end
+        return true
+    end
+end
+
 local file = fs.open(todofilepath, "r")
 local todos = textutils.unserialize(file.readAll())
 file.close()
-if not todos then
-    new()
+if not todos or type(todos) ~= "table" then
+    print("Your todo file is in the wrong format. It should be a serialized table.\n")
+    print("Path: " .. todofilepath)
+    print("Clear file? (y/n)")
+    local input = read()
+    if input == "y" then
+        new()
+        print("Cleared file.")
+        return
+    else
+        print("Todo cannot work with an invalid file. Exiting.")
+        return
+    end
+else
+    local verified, erritem = verify(todos)
+    if not verified then
+        print("Your todo file contains invalid entries: "..erritem)
+        print("Would you like to remove or try to fix this entry? (r/f)")
+        local input = read()
+        if input == "r" then
+            table.remove(todos, erritem)
+            file = fs.open(todofilepath, "w")
+            file.write(textutils.serialize(todos))
+            file.close()
+            print("Removed invalid entry.")
+        elseif input == "f" then
+            if tostring(todos[erritem].text) == "nil" then
+                todos[erritem].text = "Invalid item name"
+            else
+                todos[erritem].text = tostring(todos[erritem].text)
+            end
+            todos[erritem].priority = tonumber(todos.priority) or 0
+            todos[erritem].done = (todos.done == true)
+            if type(todos[erritem].tags) ~= "table" then
+                todos[erritem].tags = {}
+            else
+                --if it is a table, make sure it's only strings
+                for i = 1, #todos[erritem].tags do
+                    if type(todos[erritem].tags[i]) ~= "string" then
+                        todos[erritem].tags[i] = "Invalid tag"
+                    end
+                end
+            end
+            file = fs.open(todofilepath, "w")
+            file.write(textutils.serialize(todos))
+            file.close()
+            print("Fixed invalid entry.")
+        else
+            print("Todo cannot work with an invalid file. Exiting.")
+            return
+        end
+        return
+    end
 end
 todos = nil
 
