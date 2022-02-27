@@ -73,6 +73,7 @@ while true do
         local installdir = "/todo/"
         print("Downloading todo to "..installdir.."...")
         download("https://raw.githubusercontent.com/Minater247/todo/master/todo.lua", installdir.."todo.lua")
+        download("https://raw.githubusercontent.com/Minater247/todo/master/.version", installdir..".version", true)
         print("Done.")
         print("Add todo to universal path? (y/n)")
         if yesnochar("y", "n") then
