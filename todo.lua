@@ -1,6 +1,6 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.1
+local version = 0.11
 
 local args = {...}
 
@@ -463,12 +463,14 @@ elseif args[1] == "help" then
         elseif args[2] == "rm" then
             print("  todo rm <item/s>")
             print("\n  Removes any number of items from the todo list.")
+            print("  Indexed by number, not by text.")
         elseif args[2] == "sort" then
             print("  todo sort")
             print("\n  Sorts the todo list by priority and completeness.")
         elseif args[2] == "priority" then
             print("  todo priority <item/s> <priority>")
             print("\n  Sets the priority of any number of items.")
+            print("  Indexed by number, not by text.")
         elseif args[2] == "raw" then
             print("  todo raw")
             print("\n  Prints the todo list in raw format.")
@@ -476,19 +478,22 @@ elseif args[1] == "help" then
             print("  todo list <tag/s> [prios]")
             print("\n  Lists all items in the todo list. If a tag is specified, only items with that tag will be listed.")
             print("  If `done` is specified, only completed items will be listed.")
-            print("  If `prios` is specified, items will be listed alongside with their priority.")
+            print("  If `prios` is included, items will be listed alongside with their priority.")
         elseif args[2] == "clear" then
             print("  todo clear")
             print("\n  Clears the todo list.")
         elseif args[2] == "done" then
             print("  todo done <item/s>")
             print("\n  Marks any number of items as completed.")
+            print("  Indexed by number, not by text.")
         elseif args[2] == "tag" then
             print("  todo tag <tag> <item/s>")
             print("\n  Adds a tag to any number of items.")
+            print("  Indexed by number, not by text.")
         elseif args[2] == "rmtag" then
             print("  todo rmtag <tag> <item/s>")
             print("\n  Removes a tag from any number of items.")
+            print("  Indexed by number, not by text.")
         elseif args[2] == "help" then
             print("  todo help [command]")
             print("\n  Prints this help message.")
