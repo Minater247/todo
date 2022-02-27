@@ -1,7 +1,7 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.1
+                          VERSION 0.11
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
 
@@ -61,7 +61,7 @@ end
 while true do
     term.clear()
     term.setCursorPos(1, 1)
-    print("TODO Installer v0.1")
+    print("TODO Installer v0.11")
     print("")
     print("1. Install todo")
     print("2. Update todo")
@@ -76,6 +76,7 @@ while true do
         print("Downloading todo to "..installdir.."...")
         download("https://raw.githubusercontent.com/Minater247/todo/master/todo.lua", installdir.."todo.lua")
         download("https://raw.githubusercontent.com/Minater247/todo/master/.version", installdir..".version", true)
+        download("https://raw.githubusercontent.com/Minater247/todo/master/todo_installer", installdir.."todo_installer.lua", true)
         print("Done.")
         print("Add todo to universal path? (y/n)")
         if yesnochar("y", "n") then
