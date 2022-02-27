@@ -1,5 +1,7 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
+local version = 0.1
+
 local args = {...}
 
 -- Each todo item is a table with the following fields:
@@ -490,6 +492,8 @@ elseif args[1] == "help" then
             print("unknown command: "..args[2])
         end
     end
+elseif args[1] == "version" then
+    print("todo v"..version)
 else
     print("invalid command: "..args[1])
     print("Try `todo help` for a list of commands.")
