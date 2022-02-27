@@ -70,6 +70,8 @@ while true do
     local _, option = os.pullEvent("char")
 
     if option == "1" then
+        term.clear()
+        term.setCursorPos(1, 1)
         local installdir = "/todo/"
         print("Downloading todo to "..installdir.."...")
         download("https://raw.githubusercontent.com/Minater247/todo/master/todo.lua", installdir.."todo.lua")
@@ -110,6 +112,8 @@ while true do
         print("Installation complete.")
         print("Enjoy!")
     elseif option == "2" then
+        term.clear()
+        term.setCursorPos(1, 1)
         print("Fetching current version...")
         local con = true
         local f
