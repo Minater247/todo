@@ -1,6 +1,6 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.11
+local version = 0.12
 
 local args = {...}
 
@@ -37,6 +37,19 @@ local prioritycolors = {
     [2] = colors.yellow,
     [3] = colors.red
 }
+
+local function yesnochar(charone, chartwo, exact)
+    local _, c = os.pullEvent("char")
+    --case insensitive
+    if c == charone or c == string.upper(charone) then
+        return true
+    elseif c == chartwo or c == string.upper(chartwo) then
+        return false
+    elseif exact then
+        print("Please enter "..charone.." or "..chartwo)
+        return yesnochar(charone, chartwo, exact)
+    end
+end
 
 local function new()
     local file = fs.open(todofilepath, "w")
@@ -311,8 +324,7 @@ if file then
         print("Your todo file is in the wrong format. It should be a serialized table.\n")
         print("Path: " .. todofilepath)
         print("Clear file? (y/n)")
-        local input = read()
-        if input == "y" then
+        if input == yesnochar("y", "n") then
             new()
             print("Cleared file.")
             return
@@ -325,14 +337,13 @@ if file then
         if not verified then
             print("Your todo file contains invalid entries: "..erritem)
             print("Would you like to remove or try to fix this entry? (r/f)")
-            local input = read()
-            if input == "r" then
+            if yesnochar("r", "f", true) then
                 table.remove(todos, erritem)
                 file = fs.open(todofilepath, "w")
                 file.write(textutils.serialize(todos))
                 file.close()
                 print("Removed invalid entry.")
-            elseif input == "f" then
+            else
                 if tostring(todos[erritem].text) == "nil" then
                     todos[erritem].text = "Invalid item name"
                 else
@@ -354,9 +365,6 @@ if file then
                 file.write(textutils.serialize(todos))
                 file.close()
                 print("Fixed invalid entry.")
-            else
-                print("Todo cannot work with an invalid file. Exiting.")
-                return
             end
             return
         end
