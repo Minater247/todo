@@ -1,7 +1,7 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.11
+                          VERSION 0.12
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
 
@@ -76,7 +76,7 @@ while true do
         print("Downloading todo to "..installdir.."...")
         download("https://raw.githubusercontent.com/Minater247/todo/master/todo.lua", installdir.."todo.lua")
         download("https://raw.githubusercontent.com/Minater247/todo/master/.version", installdir..".version", true)
-        download("https://raw.githubusercontent.com/Minater247/todo/master/todo_installer", installdir.."todo_installer.lua", true)
+        download("https://raw.githubusercontent.com/Minater247/todo/master/todo_installer.lua", installdir.."todo_installer.lua", true)
         print("Done.")
         print("Add todo to universal path? (y/n)")
         if yesnochar("y", "n") then
