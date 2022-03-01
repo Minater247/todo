@@ -1,9 +1,11 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.13
+                          VERSION 0.13 (patch 1)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
+
+local version = 0.13
 
 local function download(url, file, noerr)
     local content = http.get(url)
@@ -61,7 +63,7 @@ end
 while true do
     term.clear()
     term.setCursorPos(1, 1)
-    print("TODO Installer v0.11")
+    print("TODO Installer v"..version)
     print("")
     print("1. Install todo")
     print("2. Update todo")
