@@ -1,6 +1,6 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.12
+local version = 0.13
 
 local args = {...}
 
