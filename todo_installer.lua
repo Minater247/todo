@@ -1,11 +1,11 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.14 (patch 1)
+                          VERSION 0.14 (patch 2)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
 
-local version = 0.141
+local version = 0.142
 
 local function download(url, file, noerr)
     local content = http.get(url)
@@ -210,6 +210,8 @@ while true do
             os.pullEvent("key")
         end
     elseif option == "3" then
+        term.clear()
+        term.setCursorPos(1, 1)
         return
     end
 end
