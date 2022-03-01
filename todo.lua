@@ -397,7 +397,6 @@ elseif args[1] == "sort" then
     sort()
 elseif args[1] == "priority" then
     for i=2, #args - 1 do
-        print("priority "..args[i].." is now "..args[#args])
         priority(tonumber(args[i]), tonumber(args[#args]))
     end
 elseif args[1] == "raw" then
