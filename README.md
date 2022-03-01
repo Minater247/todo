@@ -45,6 +45,10 @@ Create and complete tasks easily from the command line.
 
     Mark any number of items as complete.
 
+- undone <item/s>
+
+    Mark any number of items as incomplete.
+
 - tag <tag> <item/s>
 
     Tag any number of items with <tag>.

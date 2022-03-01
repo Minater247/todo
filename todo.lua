@@ -1,6 +1,6 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.15
+local version = 0.16
 
 local args = {...}
 
@@ -530,10 +530,14 @@ elseif args[1] == "help" then
         if args[2] == "add" then
             print("  todo add <item/s>")
             print("\n  Adds any number of items to the todo list.")
+            print("\n Example:")
+            print("  todo add \"Buy milk\" \"Buy bread\" Homework")
         elseif args[2] == "rm" then
             print("  todo rm <item/s>")
             print("\n  Removes any number of items from the todo list.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo rm 1 2")
         elseif args[2] == "sort" then
             print("  todo sort")
             print("\n  Sorts the todo list by priority and completeness.")
@@ -541,6 +545,9 @@ elseif args[1] == "help" then
             print("  todo priority <item/s> <priority>")
             print("\n  Sets the priority of any number of items.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo priority 1 2 3")
+            print(" (sets the priority of items 1 and 2 to 3.")
         elseif args[2] == "raw" then
             print("  todo raw")
             print("\n  Prints the todo list in raw format.")
@@ -548,7 +555,12 @@ elseif args[1] == "help" then
             print("  todo list <tag/s> [prios]")
             print("\n  Lists all items in the todo list. If a tag is specified, only items with that tag will be listed.")
             print("  If `done` is specified, only completed items will be listed.")
-            print("  If `prios` is included, items will be listed alongside with their priority.")
+            print("  If `prios` is specified, items will be listed alongside with their priority.")
+            print("\n Examples:")
+            print("  todo list")
+            print("  todo list done")
+            print("  todo list prios")
+            print("  todo list tag1 tag2")
         elseif args[2] == "clear" then
             print("  todo clear")
             print("\n  Clears the todo list.")
@@ -556,21 +568,33 @@ elseif args[1] == "help" then
             print("  todo done <item/s>")
             print("\n  Marks any number of items as completed.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo done 1 2")
         elseif args[2] == "undone" then
             print("  todo undone <item/s>")
             print("\n  Marks any number of items as incomplete.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo undone 1 2")
         elseif args[2] == "tag" then
             print("  todo tag <tag> <item/s>")
             print("\n  Adds a tag to any number of items.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo tag \"home\" 1 2")
         elseif args[2] == "rmtag" then
             print("  todo rmtag <tag> <item/s>")
             print("\n  Removes a tag from any number of items.")
             print("  Indexed by number, not by text.")
+            print("\n Example:")
+            print("  todo rmtag \"home\" 1 2")
         elseif args[2] == "help" then
             print("  todo help [command]")
             print("\n  Prints this help message.")
+            print("  If a command is specified, prints help for that command.")
+            print("\n Example:")
+            print("  todo help")
+            print("  todo help add")
         else
             print("unknown command: "..args[2])
         end
