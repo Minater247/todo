@@ -1,8 +1,41 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.14
+local version = 0.15
 
 local args = {...}
+
+--config things
+local config = fs.open("/todo/config.cfg", "r")
+local config_data = config.readAll()
+config.close()
+local configarr
+local printAfter
+local autoRemove
+local autoRemoveTime
+if config_data then
+    configarr = textutils.unserialize(config_data) or {}
+    printAfter = configarr.printAfter
+    autoRemove = configarr.autoRemove
+    autoRemoveTime = configarr.autoRemoveTime
+end
+
+if autoRemove then
+    local todofile = fs.open(todofilepath, "r")
+    local todofile_data = todofile.readAll()
+    todofile.close()
+
+    local todofilearr = textutils.unserialize(todofile_data) or {}
+    local todofilearr_new = {}
+    for i, v in pairs(todofilearr) do
+        if os.time(os.date("!*t")) - v.created < autoRemoveTime then
+            table.insert(todofilearr_new, v)
+        end
+    end
+
+    local todofile_new = fs.open(todofilepath, "w")
+    todofile_new.write(textutils.serialize(todofilearr_new))
+    todofile_new.close()
+end
 
 -- Each todo item is a table with the following fields:
 --  text: the text of the todo item
@@ -547,4 +580,8 @@ elseif args[1] == "version" then
 else
     print("invalid command: "..args[1])
     print("Try `todo help` for a list of commands.")
+end
+
+if printAfter and args[1] ~= "raw" and args[1] ~= "list" and #args > 0 then
+    list({}, false)
 end
