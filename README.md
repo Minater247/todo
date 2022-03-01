@@ -1,8 +1,8 @@
 # todo
 
-A simple to-do list manager for ComputerCraft.
+A simple to-do list manager for ComputerCraft, based off the amazing work by sioodmy: https://github.com/sioodmy/todo/
 
-*gif placeholder*
+![2022-02-28_20 00 19](https://user-images.githubusercontent.com/45747191/156102630-68fe288c-c738-49da-8a03-4b7a285db13d.gif)
 
 Create and complete tasks easily from the command line.
 
