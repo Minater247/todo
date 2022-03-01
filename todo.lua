@@ -94,6 +94,27 @@ local function done(itemNum)
     file.close()
 end
 
+local function undone(itemNum)
+    local file = fs.open(todofilepath, "r")
+    local todos = textutils.unserialize(file.readAll())
+    file.close()
+
+    if todos[itemNum] then
+        todos[itemNum].done = false
+        for i, tag in ipairs(todos[itemNum].tags) do
+            if tag == "done" then
+                table.remove(todos[itemNum].tags, i)
+            end
+        end
+    else
+        print("todo item " .. itemNum .. " does not exist")
+    end
+
+    file = fs.open(todofilepath, "w")
+    file.write(textutils.serialize(todos))
+    file.close()
+end
+
 local function rm(itemNum)
     local file = fs.open(todofilepath, "r")
     local todos = textutils.unserialize(file.readAll())
@@ -423,6 +444,14 @@ elseif args[1] == "done" then
             print("invalid argument for `done`: "..args[i].." (number expected, got "..type(args[i])..")")
         end
     end
+elseif args[1] == "undone" then
+    for i=2, #args do
+        if tonumber(args[i]) then
+            undone(tonumber(args[i]))
+        else
+            print("invalid argument for `undone`: "..args[i].." (number expected, got "..type(args[i])..")")
+        end
+    end
 elseif args[1] == "tag" then
     if #args > 2 then
         for i=3, #args do
@@ -459,6 +488,7 @@ elseif args[1] == "help" then
         print("  todo list <tag/s> [prios]")
         print("  todo clear")
         print("  todo done <item/s>")
+        print("  todo undone <item/s>")
         print("  todo tag <tag> <item/s>")
         print("  todo rmtag <tag> <item/s>")
         print("  todo help [command]")
@@ -492,6 +522,10 @@ elseif args[1] == "help" then
         elseif args[2] == "done" then
             print("  todo done <item/s>")
             print("\n  Marks any number of items as completed.")
+            print("  Indexed by number, not by text.")
+        elseif args[2] == "undone" then
+            print("  todo undone <item/s>")
+            print("\n  Marks any number of items as incomplete.")
             print("  Indexed by number, not by text.")
         elseif args[2] == "tag" then
             print("  todo tag <tag> <item/s>")
