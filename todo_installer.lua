@@ -1,7 +1,7 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.12
+                          VERSION 0.13
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
 
@@ -80,11 +80,24 @@ while true do
         print("Done.")
         print("Add todo to universal path? (y/n)")
         if yesnochar("y", "n") then
-            print("Adding todo to universal path...")
-            local file = fs.open("/startup", "a")
-            file.writeLine("shell.setPath(shell.path()..\":/todo/\")")
-            file.close()
-            print("Added to path.")
+            local existingstartup = toArr("/startup")
+            local alreadyadded = false
+            if existingstartup then
+                for i = 1, #existingstartup do
+                    if string.find(existingstartup[i], "shell.setPath(shell.path()..\":/todo/\")") then
+                        alreadyadded = true
+                    end
+                end
+            end
+            if not alreadyadded then
+                print("Adding todo to universal path...")
+                local file = fs.open("/startup", "a")
+                file.writeLine("shell.setPath(shell.path()..\":/todo/\")")
+                file.close()
+                print("Added to path.")
+            else
+                print("Already added to path.")
+            end
         end
         print("Do you want a custom todofile path? (y/n)")
         local todofile = "/todo/todofile.todo"
