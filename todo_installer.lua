@@ -1,11 +1,11 @@
 --[[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                          TODO INSTALLER
-                          VERSION 0.14
+                          VERSION 0.14 (patch 1)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]
 
-local version = 0.14
+local version = 0.141
 
 local function download(url, file, noerr)
     local content = http.get(url)
@@ -159,7 +159,7 @@ while true do
                     download("https://raw.githubusercontent.com/Minater247/todo/master/todo_installer.lua", "/todo/installer")
                     fs.delete("/todo/todo_installer.lua")
                     fs.move("/todo/installer", "/todo/todo_installer.lua")
-                    print("Updated installer downloaded. Local path is at /todo/todo.lua")
+                    print("Updated installer downloaded. Local path is at /todo/todo_installer.lua")
                     print("Updating local version file...")
                     local filelines = toArr("/todo/.version")
                     filelines[2] = ninstver
