@@ -1,6 +1,6 @@
 local todofilepath = TODO_PATH or "/todo/todofile.todo"
 
-local version = 0.16
+local version = 0.2
 
 local args = {...}
 
@@ -9,14 +9,26 @@ local config = fs.open("/todo/config.cfg", "r")
 local config_data = config.readAll()
 config.close()
 local configarr
-local printAfter
-local autoRemove
-local autoRemoveTime
+local printAfter, autoRemove, autoRemoveTime, autoRemoveComplete
+local doneBorderL, doneBorderR, doneString
+local colorprio3, colorprio2, colorprio1, colorprio0, colorprioDone, printWithColors
 if config_data then
     configarr = textutils.unserialize(config_data) or {}
     printAfter = configarr.printAfter
     autoRemove = configarr.autoRemove
     autoRemoveTime = configarr.autoRemoveTime
+    autoRemoveComplete = configarr.autoRemoveComplete
+    doneBorderL = configarr.doneBorderL
+    doneBorderR = configarr.doneBorderR
+    doneString = configarr.doneString
+    colorprio3 = configarr.priority3
+    colorprio2 = configarr.priority2
+    colorprio1 = configarr.priority1
+    colorprio0 = configarr.priority0
+    colorprioDone = configarr.priorityDone
+    printWithColors = configarr.printWithColors
+else
+    error("Failed to load config file!")
 end
 
 if autoRemove then
@@ -61,14 +73,14 @@ local priorities = {
 }
 
 local prioritycolors = {
-    none = colors.lightGray,
-    low = colors.green,
-    medium = colors.yellow,
-    high = colors.red,
-    [0] = colors.lightGray,
-    [1] = colors.green,
-    [2] = colors.yellow,
-    [3] = colors.red
+    none = colorprio0,
+    low = colorprio1,
+    medium = colorprio2,
+    high = colorprio3,
+    [0] = colorprio0,
+    [1] = colorprio1,
+    [2] = colorprio2,
+    [3] = colorprio3
 }
 
 local function yesnochar(charone, chartwo, exact)
@@ -116,8 +128,12 @@ local function done(itemNum)
     file.close()
 
     if todos[itemNum] then
-        todos[itemNum].done = true
-        table.insert(todos[itemNum].tags, "done")
+        if autoRemoveComplete then
+            table.remove(todos, itemNum)
+        else
+            todos[itemNum].done = true
+            table.insert(todos[itemNum].tags, "done")
+        end
     else
         print("todo item " .. itemNum .. " does not exist")
     end
@@ -295,22 +311,36 @@ local function list(tags, prios)
 
     for i = 1, #todos do
         term.setTextColor(colors.white)
-        local tickbox = "["
+        local tickbox = doneBorderL
         if todos[i].done then
-            tickbox = tickbox .. "x"
+            tickbox = tickbox .. doneString
         else
             tickbox = tickbox .. " "
         end
-        tickbox = tickbox .. "] "
+        tickbox = tickbox .. doneBorderR .. " "
         local prio = ""
         if prios then
             prio = "  ["..priorities[todos[i].priority].."]"
         end
         if prios then
+            if printWithColors then
+                if todos[i].done then
+                    term.setTextColor(colorprioDone)
+                else
+                    term.setTextColor(prioritycolors[todos[i].priority])
+                end
+            end
             term.write(tickbox..(todos[i].mynum or i) .. ": " .. todos[i].text)
             term.setTextColor(prioritycolors[todos[i].priority])
             print(prio)
         else
+            if printWithColors then
+                if todos[i].done then
+                    term.setTextColor(colorprioDone)
+                else
+                    term.setTextColor(prioritycolors[todos[i].priority])
+                end
+            end
             print(tickbox..(todos[i].mynum or i) .. ": " .. todos[i].text)
         end
     end
