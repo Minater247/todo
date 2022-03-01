@@ -384,7 +384,7 @@ if args[1] == "add" then
     end
 elseif args[1] == "rm" then
     for i=2, #args do
-        if tonumber(args[1]) then
+        if tonumber(args[i]) then
             rm(tonumber(args[i]))
         else
             print("invalid argument for `rm`: "..args[i].." (number expected, got "..type(args[i])..")")
